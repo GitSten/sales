@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}TOOTEARENDUS / SORTIMENDIST VÄLJA LÄINUD TOOTED{% endblock %}
+
+{% block content %}
+<h1>Tootearendus / Sortimendist Välja Läinud Tooted</h1>
+<div class="row">
+    {% for product_update in product_updates %}
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    {% if product_update.old_product or product_update.old_code or product_update.old_ean or product_update.old_image %}
+                    <div class="col-md-6 old-product">
+                        {% if product_update.old_product %}
+                        <h5 class="card-title">{{ product_update.old_product }} (vana)</h5>
+                        {% endif %}
+                        {% if product_update.old_code %}
+                        <p class="card-text">Tootekood: {{ product_update.old_code }}</p>
+                        {% endif %}
+                        {% if product_update.old_ean %}
+                        <p class="card-text">EAN: {{ product_update.old_ean }}</p>
+                        {% endif %}
+                        {% if product_update.old_image %}
+                        <img src="{{ product_update.old_image.url }}" class="img-fluid" alt="{{ product_update.old_product }}">
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% if product_update.new_product or product_update.new_code or product_update.new_ean or product_update.new_image %}
+                    <div class="col-md-6 new-product">
+                        {% if product_update.new_product %}
+                        <h5 class="card-title">{{ product_update.new_product }} (uus)</h5>
+                        {% endif %}
+                        {% if product_update.new_code %}
+                        <p class="card-text">Tootekood: {{ product_update.new_code }}</p>
+                        {% endif %}
+                        {% if product_update.new_ean %}
+                        <p class="card-text">EAN: {{ product_update.new_ean }}</p>
+                        {% endif %}
+                        {% if product_update.new_image %}
+                        <img src="{{ product_update.new_image.url }}" class="img-fluid" alt="{{ product_update.new_product }}">
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% if product_update.additional_info %}
+                <hr>
+                <p class="card-text">{{ product_update.additional_info }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    .card-title {
+        font-size: 1.2em;
+        margin-bottom: 0.5em;
+    }
+    .card-text {
+        font-size: 0.9em;
+        margin-bottom: 0.5em;
+    }
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+    .card {
+        height: 100%;
+    }
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    .old-product {
+        background-color: rgba(255, 0, 0, 0.1); /* Light red background */
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .new-product {
+        background-color: rgba(0, 128, 0, 0.1); /* Light green background */
+        padding: 10px;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}UUED TOOTED{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>Uued Tooted</h1>
+</div>
+<div class="row" id="newProducts">
+    {% for change in products %}
+    <div class="col-md-3 mb-4">
+        <div class="card-content">
+            <img src="{{ change.product.image.url }}" class="card-img-top" alt="Product Image">
+            <div class="card-body">
+                <h5 class="card-title">{{ change.product.name }}</h5>
+                <p class="card-text">Tootekood: {{ change.product.code }}</p>
+                <p class="card-text">EAN: {{ change.product.ean }}</p>
+                <p class="card-text">Soovituslik jaemüügi hind: {{ change.product.retail_price }} €</p>
+                <a href="{{ change.product.info_url }}" target="_blank">Rohkem infot</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

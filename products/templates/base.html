@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TELLIMUSED{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="icon" type="image/png" href="static/ikoon_eco.png" type="image/gif" sizes="16x16">
+    <style>
+        body {
+            padding-top: 56px; /* Lisage piisavalt ruumi päise jaoks */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'ecosh3.png' %}" alt="Logo" style="height: 30px;"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">ESILEHT</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'discontinued_products' %}">TOOTEARENDUS / SORTIMENDIST VÄLJA LÄINUD TOOTED</a>
+                </li>
+
+
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'info' %}">INFO</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <main role="main" class="container">
+         <br>
+    <br>
+    <br>
+        {% block content %}
+
+        <!-- Sisu läheb siia -->
+        {% endblock %}
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

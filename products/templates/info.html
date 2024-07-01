@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}INFO{% endblock %}
+
+{% block content %}
+<h1>Info</h1>
+<div class="info-entries">
+    {% for entry in info_entries %}
+    <div class="info-entry">
+        <h2>{{ entry.title }}</h2>
+        <p>{{ entry.content|safe }}</p> <!-- Kasutame 'safe' filtrit -->
+    </div>
+    <hr>
+    {% endfor %}
+</div>
+
+<style>
+    .info-entry {
+        padding: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    .info-entry h2 {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+    .info-entry p {
+        font-size: 1em;
+    }
+</style>
+{% endblock %}

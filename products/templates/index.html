@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}ESILEHT{% endblock %}
+
+{% block content %}
+<div class="header">
+</div>
+
+<marquee behavior="scroll" direction="left" class="news-ticker">
+    {% for news_item in news %}
+        <span>{{ news_item.text }}</span>&nbsp;&nbsp;&nbsp;
+    {% endfor %}
+</marquee>
+
+<h1>Tooted:</h1>
+<form id="searchForm" action="{% url 'index' %}" method="GET">
+    <input type="text" id="searchInput" class="form-control" placeholder="Toote otsing...(Leiab tootenime ja SKU järgi!)" name="search" value="{{ search_query }}">
+</form>
+
+<br>
+<div class="row" id="productCards">
+    {% for product in products %}
+    <div class="col-md-3 mb-4">
+        <div class="card-content position-relative">
+            {% if product.is_new %}
+                <p class="card-text text-success text-center"><strong>UUS!</strong></p>
+            {% else %}
+                <br>
+                <br>
+            {% endif %}
+            <img src="{{ product.image.url }}" class="card-img-top" alt="Product Image">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">Tootekood: {{ product.code }}</p>
+                <p class="card-text">EAN: {{ product.ean }}</p>
+                <p class="card-text">Soovituslik jaemüügi hind: {{ product.retail_price }} €</p>
+                <a href="{{ product.info_url }}" target="_blank">Rohkem infot</a>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="{{ product.image.url }}" download class="btn btn-success">LAE PILT ALLA</a>
+            <br>
+            <hr>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<br>
+<hr>
+<div id="footer" class="container">
+    <div class="footer-image text-center">
+        <img src="{% static 'ecoshfooter.png' %}" alt="Logo">
+    </div>
+</div>
+
+<style>
+    .highlight {
+        background-color: #28A745;
+    }
+    .position-absolute {
+        position: absolute;
+    }
+    .card-content {
+        min-height: 350px; /* Adjust this height based on your card content */
+    }
+    .text-center {
+        text-align: center;
+    }
+    .news-ticker {
+        background-color: #f8f9fa;
+        padding: 10px;
+        font-size: 2.0em;
+        color: #28A745;
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
+    }
+    .header {
+        position: relative;
+        background-image: url('{% static 'ecosh3.png' %}');
+        background-size: fit;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 200px;
+    }
+    .footer-image {
+        text-align: center;
+        padding: 20px 0;
+    }
+    .footer-image img {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+
+<script>
+    const searchForm = document.getElementById('searchForm');
+    const searchInput = document.getElementById('searchInput');
+    const productCards = Array.from(document.querySelectorAll('#productCards .col-md-3'));
+
+    searchForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent the form from submitting normally
+        performSearch();
+    });
+
+    searchInput.addEventListener('input', () => {
+        performSearch();
+    });
+
+    function performSearch() {
+        const searchValue = searchInput.value.trim().toLowerCase();
+
+        productCards.forEach((card) => {
+            const productName = card.querySelector('.card-title');
+            const productCode = card.querySelector('.card-text:nth-child(2)');
+
+            let productNameText = productName.textContent.toLowerCase();
+            let productCodeText = productCode.textContent.toLowerCase();
+
+            if (
+                productNameText.includes(searchValue) ||
+                productCodeText.includes(searchValue)
+            ) {
+                card.style.display = '';
+
+                highlightText(productName, searchValue);
+                highlightText(productCode, searchValue);
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        if (searchValue === '') {
+            productCards.forEach((card) => {
+                card.style.display = ''; // Show all cards if search input is empty
+            });
+        }
+    }
+
+    function highlightText(element, searchValue) {
+        const text = element.textContent;
+        const regex = new RegExp(`(${searchValue})`, 'gi');
+        const highlightedText = text.replace(regex, '<span class="highlight">$1</span>');
+        element.innerHTML = highlightedText;
+    }
+</script>
+
+{% endblock %}
